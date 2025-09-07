@@ -7,6 +7,9 @@ const port = process.env.PORT || 3000;
 // Use routes
 app.use('/', require('./routes'));
 
+app.get('/', (req, res) => {
+  res.redirect('/users');
+});
 
 
 mongodb.initDb((err) => {
