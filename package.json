@@ -15,12 +15,18 @@
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "format": "prettier --write './**/*.{js,jsx,json,css,md,ts,tsx}' --config ./.pretti errc",
+    "lint": "prettier --check ."
   },
   "dependencies": {
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "mongodb": "^6.19.0",
     "render": "^0.1.4"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
   }
 }

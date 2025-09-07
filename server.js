@@ -1,23 +1,22 @@
-const express = require('express');
+const express = require("express");
 
-const mongodb = require('./data/database');
+const mongodb = require("./data/database");
 const app = express();
 
 const port = process.env.PORT || 3000;
 // Use routes
-app.use('/', require('./routes'));
+app.use("/", require("./routes"));
 
-app.get('/', (req, res) => {
-  res.redirect('/users');
+app.get("/", (req, res) => {
+  res.redirect("/users");
 });
-
 
 mongodb.initDb((err) => {
   if (err) {
     console.log(err);
-  }
-  else {
+  } else {
     app.listen(port, () => {
-      console.log(`Database is Listening and node Running on port ${port}`)});
+      console.log(`Database is Listening and node Running on port ${port}`);
+    });
   }
 });
