@@ -21,10 +21,15 @@
     "lint": "prettier --check ."
   },
   "dependencies": {
+    "api-docs": "^0.0.1",
+    "body-parser": "^2.2.0",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "mongodb": "^6.19.0",
-    "render": "^0.1.4"
+    "react": "^19.1.1",
+    "render": "^0.1.4",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "prettier": "^3.6.2"
