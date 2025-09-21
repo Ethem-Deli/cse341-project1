@@ -11,11 +11,11 @@ const tasksRoutes = require("./routes/tasks");
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(express.json());
+
 // Swagger UI at /api-docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// Mount routes (use these URIs in swagger and tests)
+// Mount routes (these URIs match Swagger)
 app.use("/api/contacts", contactsRoutes);
 app.use("/api/tasks", tasksRoutes);
 

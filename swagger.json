@@ -1,365 +1,191 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Contacts & Users API",
-    "description": "API for managing contacts and users",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "title": "CSE341 Project API",
+    "description": "API documentation for Contacts and Tasks endpoints"
   },
   "host": "localhost:3000",
   "basePath": "/",
-  "schemes": [
-    "http",
-    "https"
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "tags": [
+    {
+      "name": "Contacts",
+      "description": "Contacts CRUD operations"
+    },
+    {
+      "name": "Tasks",
+      "description": "Tasks CRUD operations"
+    }
   ],
   "paths": {
-    "/": {
+    "/api/contacts": {
       "get": {
-        "tags": [
-          "Hello World"
-        ],
-        "description": "",
+        "tags": ["Contacts"],
+        "summary": "Get all contacts",
         "responses": {
           "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/docs": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/users/": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
+            "description": "A list of contacts",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Contact" }
+            }
           }
         }
       },
       "post": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
+        "tags": ["Contacts"],
+        "summary": "Create a contact",
         "parameters": [
           {
-            "name": "body",
             "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "favoriteColor": {
-                  "example": "any"
-                },
-                "birthday": {
-                  "example": "any"
-                }
-              }
-            }
+            "name": "contact",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Contact" }
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "201": { "description": "Contact created" },
+          "400": { "description": "Validation error" }
         }
       }
     },
-    "/users/{id}": {
+    "/api/contacts/{id}": {
       "get": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Contacts"],
+        "summary": "Get a single contact by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "A contact", "schema": { "$ref": "#/definitions/Contact" } },
+          "404": { "description": "Not found" }
         }
       },
       "put": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
+        "tags": ["Contacts"],
+        "summary": "Update a contact",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "name": {
-                  "example": "any"
-                },
-                "ipaddress": {
-                  "example": "any"
-                }
-              }
-            }
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "in": "body", "name": "contact", "required": true, "schema": { "$ref": "#/definitions/Contact" } }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "204": { "description": "Updated (no content)" },
+          "400": { "description": "Validation error" },
+          "404": { "description": "Not found" }
         }
       },
       "delete": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
+        "tags": ["Contacts"],
+        "summary": "Delete a contact",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Deleted" },
+          "404": { "description": "Not found" }
         }
       }
     },
-    "/contacts/": {
+    "/api/tasks": {
       "get": {
-        "tags": [
-          "Contacts"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Tasks"],
+        "summary": "Get all tasks",
         "responses": {
           "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
+            "description": "List of tasks",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Task" }
+            }
           }
         }
       },
       "post": {
-        "tags": [
-          "Contacts"
-        ],
-        "description": "",
+        "tags": ["Tasks"],
+        "summary": "Create a task",
         "parameters": [
           {
-            "name": "body",
             "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "favoriteColor": {
-                  "example": "any"
-                },
-                "birthday": {
-                  "example": "any"
-                }
-              }
-            }
+            "name": "task",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Task" }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "201": { "description": "Task created" },
+          "400": { "description": "Validation error" }
         }
       }
     },
-    "/contacts/{id}": {
+    "/api/tasks/{id}": {
       "get": {
-        "tags": [
-          "Contacts"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Tasks"],
+        "summary": "Get a single task by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Task object", "schema": { "$ref": "#/definitions/Task" } },
+          "404": { "description": "Not found" }
         }
       },
       "put": {
-        "tags": [
-          "Contacts"
-        ],
-        "description": "",
+        "tags": ["Tasks"],
+        "summary": "Update a task",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "favoriteColor": {
-                  "example": "any"
-                },
-                "birthday": {
-                  "example": "any"
-                }
-              }
-            }
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "in": "body", "name": "task", "required": true, "schema": { "$ref": "#/definitions/Task" } }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "204": { "description": "Updated (no content)" },
+          "400": { "description": "Validation error" },
+          "404": { "description": "Not found" }
         }
       },
       "delete": {
-        "tags": [
-          "Contacts"
-        ],
-        "description": "",
+        "tags": ["Tasks"],
+        "summary": "Delete a task",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Deleted" },
+          "404": { "description": "Not found" }
         }
       }
+    }
+  },
+  "definitions": {
+    "Contact": {
+      "type": "object",
+      "properties": {
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "city": { "type": "string" },
+        "state": { "type": "string" },
+        "postalCode": { "type": "string" },
+        "country": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["firstName", "lastName", "email", "phone"]
+    },
+    "Task": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "dueDate": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["pending", "in-progress", "completed"] },
+        "priority": { "type": "integer" },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["title"]
     }
   }
 }
