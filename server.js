@@ -30,14 +30,14 @@ app.use((err, req, res, next) => {
 
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGO_URI;
-if (!MONGO_URI) {
-  console.error("MONGO_URI not set. Create .env or configure Render env var.");
+const MONGO_URL = process.env.MONGODB_URL;
+if (!MONGO_URL) {
+  console.error("MONGO_URL not set. Create .env or configure Render env var.");
   process.exit(1);
 }
 
 mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("Connected to MongoDB");
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
