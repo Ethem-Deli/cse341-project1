@@ -1,202 +1,33 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Contacts & Users API",
-    "description": "API for managing contacts and users",
+    "title": "My API",
+    "description": "Temple API",
     "version": "1.0.0"
   },
-  "host": "cse341-project1-qer6.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
-  "schemes": [
-    "https"
-  ],
+  "schemes": ["http"],
   "paths": {
-    "/": {
+    "/api-docs": {
       "get": {
-        "tags": [
-          "Hello World"
-        ],
         "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/users/": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "favoriteColor": {
-                  "example": "any"
-                },
-                "birthday": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/users/{id}": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "name": {
-                  "example": "any"
-                },
-                "ipaddress": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+        "parameters": [],
+        "responses": {}
       }
     },
     "/contacts/": {
       "get": {
-        "tags": [
-          "Contacts"
-        ],
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       },
       "post": {
-        "tags": [
-          "Contacts"
-        ],
         "description": "",
         "parameters": [
           {
@@ -236,13 +67,8 @@
     },
     "/contacts/{id}": {
       "get": {
-        "tags": [
-          "Contacts"
-        ],
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -254,16 +80,10 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       },
       "put": {
-        "tags": [
-          "Contacts"
-        ],
         "description": "",
         "parameters": [
           {
@@ -301,18 +121,12 @@
           "204": {
             "description": "No Content"
           },
-          "404": {
-            "description": "Not Found"
-          },
           "500": {
             "description": "Internal Server Error"
           }
         }
       },
       "delete": {
-        "tags": [
-          "Contacts"
-        ],
         "description": "",
         "parameters": [
           {
@@ -325,9 +139,6 @@
         "responses": {
           "204": {
             "description": "No Content"
-          },
-          "404": {
-            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
