@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 // Define the Contact schema
 const contactSchema = new mongoose.Schema(
   // Define fields with types and validation
@@ -18,4 +18,4 @@ const contactSchema = new mongoose.Schema(
   { timestamps: true }// Automatically manage createdAt and updatedAt fields
 );
 // Create and export the Contact model
-module.exports = mongoose.model('Contact', contactSchema);// 'Contact' is the model name used in MongoDB collection
+module.exports = mongoose.model("Contact", contactSchema);// "Contact" is the model name used in MongoDB collection
