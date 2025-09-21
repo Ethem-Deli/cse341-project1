@@ -1,78 +1,87 @@
+const User = require('../models/user');
+const mongoose = require('mongoose');
 
-const mongodb = require("../data/database");
-const ObjectId = require("mongodb").ObjectId;
-
-const getAll = async (req, res) => {
+// Get all users
+const getAll = async (req, res, next) => {
   //#swagger.tags=["Users"]
   try {
-    const db = mongodb.getDatabase();
-    const result = db.collection("users").find();
-    const users = await result.toArray();
-
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json(users);
+    const users = await User.find().select('-password');
+    res.json(users);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 };
 
-const getSingle = async (req, res) => {
+// Get single user
+const getSingle = async (req, res, next) => {
   //#swagger.tags=["Users"]
   try {
-    const userId = new ObjectId(req.params.id);
-    const db = mongodb.getDatabase();
-    const result = db.collection("users").find({ _id: userId });
-    const users = await result.toArray();
-
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json(users[0]);
+    const id = req.params.id;
+    if (id && !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'Invalid id format' });
+    }
+    const user = await User.findById(id).select('-password');
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json(user);
   } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
-const createUser = async (req, res) => {
-  //#swagger.tags=["Users"]
-  const user = {
-    firstName:req.body.firstName,
-    lastName:req.body.lastName,
-    email:req.body.email,
-    favoriteColor:req.body.favoriteColor,
-    birthday:req.body.birthday
-  };
-  const response = await mongodb.getDatabase().db().collection("users").insertOne(user);
-  if (response.acknowledged) {
-    res.status(204).send();
-  } else {
-    res.status(500).json(response.error || "Some error occurred while creating the user.");
+    next(err);
   }
 };
 
-const updateUser = async (req, res) => {
+// Create user
+const createUser = async (req, res, next) => {
   //#swagger.tags=["Users"]
-  const userId = new ObjectId(req.params.id);
-  const user = {
-    username:req.body.username,
-    email:req.body.email,
-    name:req.body.name,
-    ipaddress:req.body.ipaddress,
-  };
-  const response = await mongodb.getDatabase().db().collection("users").replaceOne({_id: userId },user);
-  if (response.modifiedCount > 0) {
-    res.status(204).send();
-  } else {
-    res.status(500).json(response.error || "Some error occurred while updating the user.");
-  };
-};    
+  try {
+    const data = req.body;
+    const user = new User(data);
+    await user.save();
+    const out = user.toObject();
+    delete out.password;
+    res.status(201).json(out);
+  } catch (err) {
+    if (err.code === 11000) {
+      return res.status(409).json({ error: 'Email already exists' });
+    }
+    if (err.name === 'ValidationError') {
+      return res.status(400).json({ error: err.message });
+    }
+    next(err);
+  }
+};
 
-const deleteUser = async (req, res) => {
+// Update user
+const updateUser = async (req, res, next) => {
   //#swagger.tags=["Users"]
-  const userId = new ObjectId(req.params.id);
-  const response = await mongodb.getDatabase().db().collection("users").deleteOne({_id: userId });
-  if (response.deletedCount > 0) {
+  try {
+    const id = req.params.id;
+    if (id && !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'Invalid id format' });
+    }
+    const updated = await User.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }).select('-password');
+    if (!updated) return res.status(404).json({ error: 'User not found' });
+    res.json(updated);
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+      return res.status(400).json({ error: err.message });
+    }
+    next(err);
+  }
+};
+
+// Delete user
+const deleteUser = async (req, res, next) => {
+  //#swagger.tags=["Users"]
+  try {
+    const id = req.params.id;
+    if (id && !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'Invalid id format' });
+    }
+    const deleted = await User.findByIdAndDelete(id);
+    if (!deleted) return res.status(404).json({ error: 'User not found' });
     res.status(204).send();
-  } else {
-    res.status(500).json(response.error || "Some error occurred while deleting the user.");
-  };
+  } catch (err) {
+    next(err);
+  }
 };
 
 module.exports = {

@@ -3,7 +3,7 @@ const Task = require("../models/task");
 // CRUD operations for Task
 // Get all tasks
 async function getAll(req, res) {
-  //#swagger.tags=["Contacts"]
+  //#swagger.tags=["Tasks"]
   try {
     const docs = await Task.find();
     res.json(docs);
@@ -14,7 +14,7 @@ async function getAll(req, res) {
 }
 // Get a single task by ID
 async function getSingle(req, res) {
-  //#swagger.tags=["Contacts"]
+  //#swagger.tags=["Tasks"]
   try {
     const doc = await Task.findById(req.params.id);
     if (!doc) return res.status(404).json({ error: "Task not found" });
@@ -26,7 +26,7 @@ async function getSingle(req, res) {
 }
 // Create a new task
 async function createTask(req, res) {
-  //#swagger.tags=["Contacts"]
+  //#swagger.tags=["Tasks"]
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
@@ -42,7 +42,7 @@ async function createTask(req, res) {
 }
 // Update an existing task by ID
 async function updateTask(req, res) {
-  //#swagger.tags=["Contacts"]
+  //#swagger.tags=["Tasks"]
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
@@ -61,7 +61,7 @@ async function updateTask(req, res) {
 }
 // Delete a task by ID
 async function deleteTask(req, res) {
-  //#swagger.tags=["Contacts"]
+  //#swagger.tags=["Tasks"]
   try {
     const removed = await Task.findByIdAndDelete(req.params.id);
     if (!removed) return res.status(404).json({ error: "Task not found" });
