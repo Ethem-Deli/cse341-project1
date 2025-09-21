@@ -8,9 +8,10 @@ router.get("/", contactsController.getAll);
 
 router.get("/:id", contactsController.getSingle);
 
+// validation.saveContact will check fields (see your middleware)
 router.post("/", validation.saveContact, contactsController.createContact);
 
-router.put("/:id",validation.saveContact, contactsController.updateContact);
+router.put("/:id", validation.saveContact, contactsController.updateContact);
 
 router.delete("/:id", contactsController.deleteContact);
 

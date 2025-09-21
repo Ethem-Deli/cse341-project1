@@ -1,4 +1,5 @@
-/node_modules
 /deli.txt
+/node_modules
 /.env
-/.walkthrough.txt
+/.DS_Store
+/coverage
