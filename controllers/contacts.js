@@ -31,6 +31,24 @@ const getSingle = async (req, res, next) => {
 // Create contact
 const createContact = async (req, res, next) => {
   //#swagger.tags=["Contacts"]
+  /*
+  #swagger.tags = ['Contacts']
+  #swagger.description = 'Create a new contact'
+  #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Contact data',
+    required: true,
+    schema: {
+      $firstName: 'John',
+      $lastName: 'Doe',
+      $email: 'john@example.com',
+      $favoriteColor: 'blue',
+      $birthday: '1990-01-01'
+    }
+  }
+  #swagger.responses[201] = { description: 'Contact created successfully' }
+  #swagger.responses[400] = { description: 'Validation error' }
+*/
   try {
     const data = req.body;
     const contact = new Contact(data);
@@ -48,6 +66,31 @@ const createContact = async (req, res, next) => {
 // Update contact
 const updateContact = async (req, res, next) => {
   //#swagger.tags=["Contacts"]
+  /*
+  #swagger.tags = ['Contacts']
+  #swagger.description = 'Update an existing contact'
+  #swagger.parameters['id'] = {
+    in: 'path',
+    description: 'Contact ID',
+    required: true,
+    type: 'string'
+  }
+  #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Updated contact data',
+    required: true,
+    schema: {
+      firstName: 'Jane',
+      lastName: 'Smith',
+      email: 'john@example.com',
+      favoriteColor: 'blue',
+      birthday: '1990-01-01'
+    }
+  }
+  #swagger.responses[200] = { description: 'Contact updated successfully' }
+  #swagger.responses[400] = { description: 'Validation error' }
+  #swagger.responses[404] = { description: 'Contact not found' }
+*/
   try {
     const id = req.params.id;
     if (id && !mongoose.Types.ObjectId.isValid(id)) {
@@ -67,6 +110,18 @@ const updateContact = async (req, res, next) => {
 // Delete contact
 const deleteContact = async (req, res, next) => {
   //#swagger.tags=["Contacts"]
+  /*
+  #swagger.tags = ['Contacts']
+  #swagger.description = 'Delete a contact by ID'
+  #swagger.parameters['id'] = {
+    in: 'path',
+    required: true,
+    type: 'string',
+    description: 'Contact ID'
+  }
+  #swagger.responses[204] = { description: 'Contact deleted successfully' }
+  #swagger.responses[404] = { description: 'Contact not found' }
+*/
   try {
     const id = req.params.id;
     if (id && !mongoose.Types.ObjectId.isValid(id)) {

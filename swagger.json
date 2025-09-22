@@ -41,13 +41,48 @@
         "tags": [
           "Users"
         ],
-        "description": "",
+        "description": "Create a new user",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "User details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "example": "John"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "john@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "secret123"
+                }
+              },
+              "required": [
+                "firstName",
+                "lastName",
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "User created successfully"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Validation error"
           },
           "409": {
             "description": "Conflict"
@@ -85,24 +120,51 @@
         "tags": [
           "Users"
         ],
-        "description": "",
+        "description": "Update an existing user",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "User ID"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated user details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "example": "Jane"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Smith"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "jane@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "newpassword123"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "User updated successfully"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Validation error"
           },
           "404": {
-            "description": "Not Found"
+            "description": "User not found"
           }
         }
       },
@@ -110,24 +172,25 @@
         "tags": [
           "Users"
         ],
-        "description": "",
+        "description": "Delete a user by ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "User ID"
           }
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "User deleted successfully"
           },
           "400": {
             "description": "Bad Request"
           },
           "404": {
-            "description": "Not Found"
+            "description": "User not found"
           }
         }
       }
@@ -148,13 +211,47 @@
         "tags": [
           "Contacts"
         ],
-        "description": "",
+        "description": "Create a new contact",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Contact data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "example": "John"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "john@example.com"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "+97412345678"
+                }
+              },
+              "required": [
+                "firstName",
+                "lastName",
+                "email"
+              ]
+            }
+          }
+        ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Contact created successfully"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Validation error"
           }
         }
       }
@@ -189,24 +286,52 @@
         "tags": [
           "Contacts"
         ],
-        "description": "",
+        "description": "Update an existing contact",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Contact ID"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated contact data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "example": "Jane"
+                },
+                "lastName": {
+                  "type": "string",
+                  "example": "Smith"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "jane@example.com"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "+97498765432"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Contact updated successfully"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Validation error"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Contact not found"
           }
         }
       },
@@ -214,24 +339,25 @@
         "tags": [
           "Contacts"
         ],
-        "description": "",
+        "description": "Delete a contact by ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Contact ID"
           }
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Contact deleted successfully"
           },
           "400": {
             "description": "Bad Request"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Contact not found"
           }
         }
       }
@@ -255,13 +381,37 @@
         "tags": [
           "Tasks"
         ],
-        "description": "",
+        "description": "Create a new task",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Task data",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "Finish project"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "pending"
+                }
+              },
+              "required": [
+                "title"
+              ]
+            }
+          }
+        ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Task created successfully"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Validation error"
           },
           "500": {
             "description": "Internal Server Error"
@@ -274,24 +424,25 @@
         "tags": [
           "Tasks"
         ],
-        "description": "",
+        "description": "Get a single task by ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Task ID"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Task found"
           },
           "400": {
             "description": "Bad Request"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Task not found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -302,24 +453,43 @@
         "tags": [
           "Tasks"
         ],
-        "description": "",
+        "description": "Update an existing task",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Task ID"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated task data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "Finish project ASAP"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "in-progress"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Task updated successfully"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Validation error"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Task not found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -330,24 +500,25 @@
         "tags": [
           "Tasks"
         ],
-        "description": "",
+        "description": "Delete a task by ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Task ID"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Task deleted successfully"
           },
           "400": {
             "description": "Bad Request"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Task not found"
           },
           "500": {
             "description": "Internal Server Error"

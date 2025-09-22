@@ -15,6 +15,18 @@ async function getAll(req, res) {
 // Get a single task by ID
 async function getSingle(req, res) {
   //#swagger.tags=["Tasks"]
+  /*
+  #swagger.tags = ['Tasks']
+  #swagger.description = 'Get a single task by ID'
+  #swagger.parameters['id'] = {
+    in: 'path',
+    required: true,
+    type: 'string',
+    description: 'Task ID'
+  }
+  #swagger.responses[200] = { description: 'Task found' }
+  #swagger.responses[404] = { description: 'Task not found' }
+*/
   try {
     const doc = await Task.findById(req.params.id);
     if (!doc) return res.status(404).json({ error: "Task not found" });
@@ -27,6 +39,21 @@ async function getSingle(req, res) {
 // Create a new task
 async function createTask(req, res) {
   //#swagger.tags=["Tasks"]
+  /*
+    #swagger.tags = ['Tasks']
+    #swagger.description = 'Create a new task'
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Task data',
+      required: true,
+      schema: {
+        $title: 'Finish project',
+        status: 'pending'
+      }
+    }
+    #swagger.responses[201] = { description: 'Task created successfully' }
+    #swagger.responses[400] = { description: 'Validation error' }
+  */
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
@@ -43,6 +70,27 @@ async function createTask(req, res) {
 // Update an existing task by ID
 async function updateTask(req, res) {
   //#swagger.tags=["Tasks"]
+  /*
+  #swagger.tags = ['Tasks']
+  #swagger.description = 'Update an existing task'
+  #swagger.parameters['id'] = {
+    in: 'path',
+    required: true,
+    type: 'string',
+    description: 'Task ID'
+  }
+  #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Updated task data',
+    schema: {
+      title: 'Finish project ASAP',
+      status: 'in-progress'
+    }
+  }
+  #swagger.responses[200] = { description: 'Task updated successfully' }
+  #swagger.responses[400] = { description: 'Validation error' }
+  #swagger.responses[404] = { description: 'Task not found' }
+*/
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
@@ -62,6 +110,18 @@ async function updateTask(req, res) {
 // Delete a task by ID
 async function deleteTask(req, res) {
   //#swagger.tags=["Tasks"]
+  /*
+  #swagger.tags = ['Tasks']
+  #swagger.description = 'Delete a task by ID'
+  #swagger.parameters['id'] = {
+    in: 'path',
+    required: true,
+    type: 'string',
+    description: 'Task ID'
+  }
+  #swagger.responses[200] = { description: 'Task deleted successfully' }
+  #swagger.responses[404] = { description: 'Task not found' }
+*/
   try {
     const removed = await Task.findByIdAndDelete(req.params.id);
     if (!removed) return res.status(404).json({ error: "Task not found" });

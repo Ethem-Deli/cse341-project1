@@ -31,6 +31,23 @@ const getSingle = async (req, res, next) => {
 // Create user
 const createUser = async (req, res, next) => {
   //#swagger.tags=["Users"]
+  /*
+    #swagger.tags = ['Users']
+    #swagger.description = 'Create a new user'
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'User details',
+      required: true,
+      schema: {
+        $firstName: 'John',
+        $lastName: 'Doe',
+        $email: 'john@example.com',
+        $password: 'secret123'
+      }
+    }
+    #swagger.responses[201] = { description: 'User created successfully' }
+    #swagger.responses[400] = { description: 'Validation error' }
+  */
   try {
     const data = req.body;
     const user = new User(data);
@@ -52,6 +69,29 @@ const createUser = async (req, res, next) => {
 // Update user
 const updateUser = async (req, res, next) => {
   //#swagger.tags=["Users"]
+  /*
+  #swagger.tags = ['Users']
+  #swagger.description = 'Update an existing user'
+  #swagger.parameters['id'] = {
+    in: 'path',
+    required: true,
+    type: 'string',
+    description: 'User ID'
+  }
+  #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Updated user details',
+    schema: {
+      firstName: 'Jane',
+      lastName: 'Smith',
+      email: 'jane@example.com',
+      password: 'newpassword123'
+    }
+  }
+  #swagger.responses[200] = { description: 'User updated successfully' }
+  #swagger.responses[400] = { description: 'Validation error' }
+  #swagger.responses[404] = { description: 'User not found' }
+*/
   try {
     const id = req.params.id;
     if (id && !mongoose.Types.ObjectId.isValid(id)) {
@@ -71,6 +111,18 @@ const updateUser = async (req, res, next) => {
 // Delete user
 const deleteUser = async (req, res, next) => {
   //#swagger.tags=["Users"]
+  /*
+  #swagger.tags = ['Users']
+  #swagger.description = 'Delete a user by ID'
+  #swagger.parameters['id'] = {
+    in: 'path',
+    required: true,
+    type: 'string',
+    description: 'User ID'
+  }
+  #swagger.responses[204] = { description: 'User deleted successfully' }
+  #swagger.responses[404] = { description: 'User not found' }
+*/
   try {
     const id = req.params.id;
     if (id && !mongoose.Types.ObjectId.isValid(id)) {

@@ -25,48 +25,10 @@ router.get('/:id', validateObjectId, usersController.getSingle);
 
 // CREATE new user
 router.post('/', userValidation, usersController.createUser);
-/*
-  #swagger.tags = ['Users']
-  #swagger.description = 'Create a new user'
-  #swagger.parameters['body'] = {
-    in: 'body',
-    description: 'User details',
-    required: true,
-    schema: {
-      $firstName: 'John',
-      $lastName: 'Doe',
-      $email: 'john@example.com',
-      $password: 'secret123'
-    }
-  }
-  #swagger.responses[201] = { description: 'User created successfully' }
-  #swagger.responses[400] = { description: 'Validation error' }
-*/
 
 router.put('/:id', validateObjectId, userValidation, usersController.updateUser);
-/*
-  #swagger.tags = ['Users']
-  #swagger.description = 'Update an existing user'
-  #swagger.parameters['id'] = {
-    in: 'path',
-    required: true,
-    type: 'string',
-    description: 'User ID'
-  }
-  #swagger.parameters['body'] = {
-    in: 'body',
-    description: 'Updated user details',
-    schema: {
-      firstName: 'Jane',
-      lastName: 'Smith',
-      email: 'jane@example.com',
-      password: 'newpassword123'
-    }
-  }
-  #swagger.responses[200] = { description: 'User updated successfully' }
-  #swagger.responses[400] = { description: 'Validation error' }
-  #swagger.responses[404] = { description: 'User not found' }
-*/
+
+// DELETE user by ID
 router.delete('/:id', validateObjectId, usersController.deleteUser);
 
 module.exports = router;
