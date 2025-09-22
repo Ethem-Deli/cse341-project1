@@ -5,7 +5,7 @@
     "description": "API for managing contacts and users",
     "version": "1.0.0"
   },
-  "host": "https://cse341-project1-qer6.onrender.com",
+  "host": "cse341-project1-qer6.onrender.com",
   "basePath": "/",
   "schemes": [
     "https"
