@@ -1,22 +1,24 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const contactsController = require('../controllers/contacts');
-const { saveContact } = require('../middleware/validation');
-const validateObjectId = require('../middleware/validateObjectId');
+const contactsController = require("../controllers/contacts");
+const { saveContact } = require("../middleware/validation");
+const validate = require("../middleware/validate");
+const { contactCreate, contactUpdate } = require("../validation/contactValidation");
+const { ensureAuthenticated } = require("../auth/middleware");
+const validateObjectId = require("../middleware/validateObjectId");
 
 // GET all contacts
-router.get('/', contactsController.getAll);
+router.get("/", contactsController.getAll);
 
 // GET one contact
-router.get('/:id', validateObjectId, contactsController.getSingle);
+router.get("/:id", validateObjectId, contactsController.getSingle);
 
 // CREATE new contact
-router.post('/', saveContact, contactsController.createContact);
-
+router.post("/", ensureAuthenticated, validate(contactCreate), contactsController.createContact);
 // UPDATE a contact
-router.put('/:id', validateObjectId, saveContact, contactsController.updateContact);
+router.put("/:id", ensureAuthenticated, validateObjectId, validate(contactUpdate), contactsController.updateContact);
 
 // DELETE a contact
-router.delete('/:id', validateObjectId, contactsController.deleteContact);
+router.delete("/:id", ensureAuthenticated, validateObjectId, contactsController.deleteContact);
 
 module.exports = router;

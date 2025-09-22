@@ -7,14 +7,18 @@ const contactSchema = new mongoose.Schema(
     lastName: { type: String, required: true, trim: true },
     email: { type: String, required: true, trim: true, match: /.+\@.+\..+/ },// Basic email format validation
     birthday: { type: String, required: true, trim: true },
-    address: { type: String, trim: true },
-    city: { type: String, trim: true },
-    state: { type: String, trim: true },
-    country: { type: String, trim: true },
-    notes: { type: String }
+    phone: { type: String, required: true, trim: true },
+    address: { type: String, required: false, trim: true },
+    city: { type: String, required: false, trim: true },
+    state: { type: String, required: false, trim: true },
+    zip: { type: String, required: false, trim: true },
+    notes: { type: String, required: false },
+    createdAt: { type: Date, default: Date.now }
   },
+  
   // Schema options
-  { timestamps: true }// Automatically manage createdAt and updatedAt fields
-);
+  // Automatically manage createdAt and updatedAt fields
+  { timestamps: true });
+
 // Create and export the Contact model
 module.exports = mongoose.model("Contact", contactSchema);// "Contact" is the model name used in MongoDB collection

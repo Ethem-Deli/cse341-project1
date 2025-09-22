@@ -16,16 +16,16 @@ async function getAll(req, res) {
 async function getSingle(req, res) {
   //#swagger.tags=["Tasks"]
   /*
-  #swagger.tags = ['Tasks']
-  #swagger.description = 'Get a single task by ID'
-  #swagger.parameters['id'] = {
-    in: 'path',
+  #swagger.tags = ["Tasks"]
+  #swagger.description = "Get a single task by ID"
+  #swagger.parameters["id"] = {
+    in: "path",
     required: true,
-    type: 'string',
-    description: 'Task ID'
+    type: "string",
+    description: "Task ID"
   }
-  #swagger.responses[200] = { description: 'Task found' }
-  #swagger.responses[404] = { description: 'Task not found' }
+  #swagger.responses[200] = { description: "Task found" }
+  #swagger.responses[404] = { description: "Task not found" }
 */
   try {
     const doc = await Task.findById(req.params.id);
@@ -40,19 +40,19 @@ async function getSingle(req, res) {
 async function createTask(req, res) {
   //#swagger.tags=["Tasks"]
   /*
-    #swagger.tags = ['Tasks']
-    #swagger.description = 'Create a new task'
-    #swagger.parameters['body'] = {
-      in: 'body',
-      description: 'Task data',
+    #swagger.tags = ["Tasks"]
+    #swagger.description = "Create a new task"
+    #swagger.parameters["body"] = {
+      in: "body",
+      description: "Task data",
       required: true,
       schema: {
-        $title: 'Finish project',
-        status: 'pending'
+        $title: "Finish project",
+        status: "pending"
       }
     }
-    #swagger.responses[201] = { description: 'Task created successfully' }
-    #swagger.responses[400] = { description: 'Validation error' }
+    #swagger.responses[201] = { description: "Task created successfully" }
+    #swagger.responses[400] = { description: "Validation error" }
   */
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
@@ -71,25 +71,25 @@ async function createTask(req, res) {
 async function updateTask(req, res) {
   //#swagger.tags=["Tasks"]
   /*
-  #swagger.tags = ['Tasks']
-  #swagger.description = 'Update an existing task'
-  #swagger.parameters['id'] = {
-    in: 'path',
+  #swagger.tags = ["Tasks"]
+  #swagger.description = "Update an existing task"
+  #swagger.parameters["id"] = {
+    in: "path",
     required: true,
-    type: 'string',
-    description: 'Task ID'
+    type: "string",
+    description: "Task ID"
   }
-  #swagger.parameters['body'] = {
-    in: 'body',
-    description: 'Updated task data',
+  #swagger.parameters["body"] = {
+    in: "body",
+    description: "Updated task data",
     schema: {
-      title: 'Finish project ASAP',
-      status: 'in-progress'
+      title: "Finish project ASAP",
+      status: "in-progress"
     }
   }
-  #swagger.responses[200] = { description: 'Task updated successfully' }
-  #swagger.responses[400] = { description: 'Validation error' }
-  #swagger.responses[404] = { description: 'Task not found' }
+  #swagger.responses[200] = { description: "Task updated successfully" }
+  #swagger.responses[400] = { description: "Validation error" }
+  #swagger.responses[404] = { description: "Task not found" }
 */
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
@@ -111,16 +111,16 @@ async function updateTask(req, res) {
 async function deleteTask(req, res) {
   //#swagger.tags=["Tasks"]
   /*
-  #swagger.tags = ['Tasks']
-  #swagger.description = 'Delete a task by ID'
-  #swagger.parameters['id'] = {
-    in: 'path',
+  #swagger.tags = ["Tasks"]
+  #swagger.description = "Delete a task by ID"
+  #swagger.parameters["id"] = {
+    in: "path",
     required: true,
-    type: 'string',
-    description: 'Task ID'
+    type: "string",
+    description: "Task ID"
   }
-  #swagger.responses[200] = { description: 'Task deleted successfully' }
-  #swagger.responses[404] = { description: 'Task not found' }
+  #swagger.responses[200] = { description: "Task deleted successfully" }
+  #swagger.responses[404] = { description: "Task not found" }
 */
   try {
     const removed = await Task.findByIdAndDelete(req.params.id);
