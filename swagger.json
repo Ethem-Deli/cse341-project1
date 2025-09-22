@@ -232,15 +232,21 @@
                   "type": "string",
                   "example": "john@example.com"
                 },
-                "phone": {
+                "favoriteColor": {
                   "type": "string",
-                  "example": "+97412345678"
+                  "example": "blue"
+                },
+                "birthday": {
+                  "type": "string",
+                  "example": "1990-01-01"
                 }
               },
               "required": [
                 "firstName",
                 "lastName",
-                "email"
+                "email",
+                "favoriteColor",
+                "birthday"
               ]
             }
           }
@@ -312,11 +318,15 @@
                 },
                 "email": {
                   "type": "string",
-                  "example": "jane@example.com"
+                  "example": "john@example.com"
                 },
-                "phone": {
+                "favoriteColor": {
                   "type": "string",
-                  "example": "+97498765432"
+                  "example": "blue"
+                },
+                "birthday": {
+                  "type": "string",
+                  "example": "1990-01-01"
                 }
               }
             }
