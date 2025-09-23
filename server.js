@@ -26,7 +26,7 @@ app.use((err, req, res, next) => {
 
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 3000;
-const MONGO_URL = process.env.MONGODB_URL || process.env.MONGO_URL;
+const MONGO_URL = process.env.MONGODB_URL || process.env.MONGODB_URL;
 
 if (!MONGO_URL) {
   console.error("MONGODB_URL not set. Create .env or configure Render env var.");
