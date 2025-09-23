@@ -1,6 +1,5 @@
-const { validationResult } = require("express-validator");
 const Task = require("../models/task");
-// CRUD operations for Task
+
 // Get all tasks
 async function getAll(req, res) {
   //#swagger.tags=["Tasks"]
@@ -12,6 +11,7 @@ async function getAll(req, res) {
     res.status(500).json({ error: "Server error" });
   }
 }
+
 // Get a single task by ID
 async function getSingle(req, res) {
   //#swagger.tags=["Tasks"]
@@ -36,37 +36,41 @@ async function getSingle(req, res) {
     res.status(500).json({ error: "Server error" });
   }
 }
+
 // Create a new task
 async function createTask(req, res) {
   //#swagger.tags=["Tasks"]
   /*
-    #swagger.tags = ["Tasks"]
-    #swagger.description = "Create a new task"
-    #swagger.parameters["body"] = {
-      in: "body",
-      description: "Task data",
-      required: true,
-      schema: {
-        $title: "Finish project",
-        status: "pending"
-      }
+  #swagger.tags = ["Tasks"]
+  #swagger.description = "Create a new task"
+  #swagger.parameters["body"] = {
+    in: "body",
+    description: "Task data",
+    required: true,
+    schema: {
+      $title: "Write Swagger documentation",
+      description: "Add all task endpoints to swagger.json for testing",
+      status: "pending",
+      priority: "high",
+      dueDate: "2025-10-01T00:00:00.000Z"
     }
-    #swagger.responses[201] = { description: "Task created successfully" }
-    #swagger.responses[400] = { description: "Validation error" }
-  */
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-
+  }
+  #swagger.responses[201] = { description: "Task created successfully" }
+  #swagger.responses[400] = { description: "Validation error" }
+*/
   try {
     const task = new Task(req.body);
     await task.save();
     res.status(201).json(task);
   } catch (err) {
     console.error("createTask error:", err);
-    if (err.name === "ValidationError") return res.status(400).json({ error: err.message });
+    if (err.name === "ValidationError") {
+      return res.status(400).json({ error: err.message });
+    }
     res.status(500).json({ error: "Server error" });
   }
 }
+
 // Update an existing task by ID
 async function updateTask(req, res) {
   //#swagger.tags=["Tasks"]
@@ -83,17 +87,17 @@ async function updateTask(req, res) {
     in: "body",
     description: "Updated task data",
     schema: {
-      title: "Finish project ASAP",
-      status: "in-progress"
+      title: "Write updated Swagger documentation",
+      description: "Refine task details and test again",
+      status: "in-progress",
+      priority: "medium",
+      dueDate: "2025-11-15T00:00:00.000Z"
     }
   }
   #swagger.responses[200] = { description: "Task updated successfully" }
   #swagger.responses[400] = { description: "Validation error" }
   #swagger.responses[404] = { description: "Task not found" }
 */
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-
   try {
     const updated = await Task.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -103,14 +107,17 @@ async function updateTask(req, res) {
     res.json(updated);
   } catch (err) {
     console.error("updateTask error:", err);
-    if (err.name === "ValidationError") return res.status(400).json({ error: err.message });
+    if (err.name === "ValidationError") {
+      return res.status(400).json({ error: err.message });
+    }
     res.status(500).json({ error: "Server error" });
   }
 }
+
 // Delete a task by ID
 async function deleteTask(req, res) {
   //#swagger.tags=["Tasks"]
-  /*
+   /*
   #swagger.tags = ["Tasks"]
   #swagger.description = "Delete a task by ID"
   #swagger.parameters["id"] = {
@@ -137,5 +144,5 @@ module.exports = {
   getSingle,
   createTask,
   updateTask,
-  deleteTask,
+  deleteTask
 };

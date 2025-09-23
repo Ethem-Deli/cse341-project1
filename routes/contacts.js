@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const contactsController = require("../controllers/contacts");
-const { saveContact } = require("../middleware/validation");
 const validate = require("../middleware/validate");
 const { contactCreate, contactUpdate } = require("../validation/contactValidation");
 const { ensureAuthenticated } = require("../auth/middleware");

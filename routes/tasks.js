@@ -1,44 +1,33 @@
 const express = require("express");
-const { body } = require("express-validator");
+const validate = require("../middleware/validate");
+const { taskCreate, taskUpdate } = require("../validation/taskValidation");
 const validateObjectId = require("../middleware/validateObjectId");
 const controller = require("../controllers/tasks");
 
 // Create a router instance
 const router = express.Router();
-// Define routes for task operations
+
+// Get all tasks
 router.get("/", controller.getAll);
+
 // Get a single task by ID
 router.get("/:id", validateObjectId, controller.getSingle);
+
 // Create a new task
 /**
  * @route POST /tasks
  * @security bearerAuth
  */
-router.post(
-  "/",
-  [
-    body("title").notEmpty().withMessage("title is required"),
-    body("status").optional().isIn(["pending", "in-progress", "completed"]).withMessage("invalid status")
-  ],
-  controller.createTask
-);
+router.post("/", validate(taskCreate), controller.createTask);
 
 // Update an existing task by ID
 /**
  * @route PUT /tasks/{id}
  * @security bearerAuth
  */
-router.put(
-  "/:id",
-  validateObjectId,
-  [
-    body("status").optional().isIn(["pending", "in-progress", "completed"]).withMessage("invalid status"),
-    body("title").optional().notEmpty().withMessage("title cannot be empty")
-  ],
-  controller.updateTask
-);
+router.put("/:id", validateObjectId, validate(taskUpdate), controller.updateTask);
 
-//  Delete a task by ID
+// Delete a task by ID
 /**
  * @route DELETE /tasks/{id}
  * @security bearerAuth
@@ -46,3 +35,6 @@ router.put(
 router.delete("/:id", validateObjectId, controller.deleteTask);
 
 module.exports = router;
+
+
+//**END**

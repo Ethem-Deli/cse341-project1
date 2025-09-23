@@ -5,7 +5,7 @@
     "description": "API for managing contacts and users",
     "version": "1.0.0"
   },
-  "host": "cse341-project1-k82o.onrender.com",
+   "host": "cse341-project1-k82o.onrender.com",
   "basePath": "/",
   "schemes": [
     "https"
@@ -510,11 +510,23 @@
               "properties": {
                 "title": {
                   "type": "string",
-                  "example": "Finish project"
+                  "example": "Write Swagger documentation"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Add all task endpoints to swagger.json for testing"
                 },
                 "status": {
                   "type": "string",
                   "example": "pending"
+                },
+                "priority": {
+                  "type": "string",
+                  "example": "high"
+                },
+                "dueDate": {
+                  "type": "string",
+                  "example": "2025-10-01T00:00:00.000Z"
                 }
               },
               "required": [
@@ -588,11 +600,23 @@
               "properties": {
                 "title": {
                   "type": "string",
-                  "example": "Finish project ASAP"
+                  "example": "Write updated Swagger documentation"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Refine task details and test again"
                 },
                 "status": {
                   "type": "string",
                   "example": "in-progress"
+                },
+                "priority": {
+                  "type": "string",
+                  "example": "medium"
+                },
+                "dueDate": {
+                  "type": "string",
+                  "example": "2025-11-15T00:00:00.000Z"
                 }
               }
             }
@@ -715,12 +739,31 @@
                 },
                 "description": {
                   "type": "string",
-                  "example": "High performance laptop"
+                  "example": "High performance laptop with 16GB RAM and SSD storage"
+                },
+                "sku": {
+                  "type": "string",
+                  "example": "LAP-1500"
+                },
+                "quantity": {
+                  "type": "number",
+                  "example": 25
+                },
+                "inStock": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "category": {
+                  "type": "string",
+                  "example": "Electronics"
                 }
               },
               "required": [
                 "name",
-                "price"
+                "price",
+                "sku",
+                "quantity",
+                "inStock"
               ]
             }
           }
@@ -798,7 +841,23 @@
                 },
                 "description": {
                   "type": "string",
-                  "example": "Updated description"
+                  "example": "Updated description with better GPU"
+                },
+                "sku": {
+                  "type": "string",
+                  "example": "LAP-2000"
+                },
+                "quantity": {
+                  "type": "number",
+                  "example": 15
+                },
+                "inStock": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "category": {
+                  "type": "string",
+                  "example": "Electronics"
                 }
               }
             }

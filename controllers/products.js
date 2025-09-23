@@ -55,21 +55,26 @@ exports.getProductById = async (req, res, next) => {
 exports.createProduct = async (req, res, next) => {
   //#swagger.tags=["Products"]
   /*
-    #swagger.tags = ["Products"]
-    #swagger.description = "Create a new product"
-    #swagger.parameters["body"] = {
-      in: "body",
-      description: "Product data",
-      required: true,
-      schema: {
-        $name: "Laptop",
-        $price: 1500,
-        description: "High performance laptop"
-      }
+  #swagger.tags = ["Products"]
+  #swagger.description = "Create a new product"
+  #swagger.parameters["body"] = {
+    in: "body",
+    description: "Product data",
+    required: true,
+    schema: {
+      $name: "Laptop",
+      $price: 1500,
+      description: "High performance laptop with 16GB RAM and SSD storage",
+      $sku: "LAP-1500",
+      $quantity: 25,
+      $inStock: true,
+      category: "Electronics"
     }
-    #swagger.responses[201] = { description: "Product created successfully" }
-    #swagger.responses[400] = { description: "Validation error" }
-  */
+  }
+  #swagger.responses[201] = { description: "Product created successfully" }
+  #swagger.responses[400] = { description: "Validation error" }
+*/
+
   try {
     const newProduct = new Product(req.body);
     const saved = await newProduct.save();
@@ -81,30 +86,34 @@ exports.createProduct = async (req, res, next) => {
 
 // Update product
 exports.updateProduct = async (req, res, next) => {
-  //#swagger.tags=["Products"]
   /*
-    #swagger.tags = ["Products"]
-    #swagger.description = "Update an existing product"
-    #swagger.parameters["id"] = {
-      in: "path",
-      description: "Product ID",
-      required: true,
-      type: "string"
+  #swagger.tags = ["Products"]
+  #swagger.description = "Update an existing product"
+  #swagger.parameters["id"] = {
+    in: "path",
+    description: "Product ID",
+    required: true,
+    type: "string"
+  }
+  #swagger.parameters["body"] = {
+    in: "body",
+    description: "Updated product data",
+    required: true,
+    schema: {
+      name: "Gaming Laptop",
+      price: 2000,
+      description: "Updated description with better GPU",
+      sku: "LAP-2000",
+      quantity: 15,
+      inStock: true,
+      category: "Electronics"
     }
-    #swagger.parameters["body"] = {
-      in: "body",
-      description: "Updated product data",
-      required: true,
-      schema: {
-        name: "Gaming Laptop",
-        price: 2000,
-        description: "Updated description"
-      }
-    }
-    #swagger.responses[200] = { description: "Product updated successfully" }
-    #swagger.responses[400] = { description: "Validation error" }
-    #swagger.responses[404] = { description: "Product not found" }
-  */
+  }
+  #swagger.responses[200] = { description: "Product updated successfully" }
+  #swagger.responses[400] = { description: "Validation error" }
+  #swagger.responses[404] = { description: "Product not found" }
+*/
+
   try {
     const updated = await Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
