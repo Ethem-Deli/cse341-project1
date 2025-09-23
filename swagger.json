@@ -25,6 +25,36 @@
         }
       }
     },
+    "/auth/login": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/users/": {
       "get": {
         "tags": [
@@ -214,6 +244,11 @@
         "description": "Create a new contact",
         "parameters": [
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "description": "Contact data",
@@ -240,6 +275,30 @@
                 "birthday": {
                   "type": "string",
                   "example": "1990-01-01"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "123-456-7890"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "123 Main St"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "Anytown"
+                },
+                "state": {
+                  "type": "string",
+                  "example": "CA"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "USA"
+                },
+                "notes": {
+                  "type": "string",
+                  "example": "Some notes about the contact"
                 }
               },
               "required": [
@@ -247,7 +306,13 @@
                 "lastName",
                 "email",
                 "favoriteColor",
-                "birthday"
+                "birthday",
+                "phone",
+                "address",
+                "city",
+                "state",
+                "country",
+                "notes"
               ]
             }
           }
@@ -305,6 +370,11 @@
             "description": "Contact ID"
           },
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "description": "Updated contact data",
@@ -314,11 +384,11 @@
               "properties": {
                 "firstName": {
                   "type": "string",
-                  "example": "Jane"
+                  "example": "John"
                 },
                 "lastName": {
                   "type": "string",
-                  "example": "Smith"
+                  "example": "Doe"
                 },
                 "email": {
                   "type": "string",
@@ -331,6 +401,30 @@
                 "birthday": {
                   "type": "string",
                   "example": "1990-01-01"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "123-456-7890"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "123 Main St"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "Anytown"
+                },
+                "state": {
+                  "type": "string",
+                  "example": "CA"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "USA"
+                },
+                "notes": {
+                  "type": "string",
+                  "example": "Some notes about the contact"
                 }
               }
             }
@@ -363,6 +457,11 @@
             "required": true,
             "type": "string",
             "description": "Contact ID"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -595,6 +694,11 @@
         "description": "Create a new product",
         "parameters": [
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "description": "Product data",
@@ -673,6 +777,11 @@
             "description": "Product ID"
           },
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "description": "Updated product data",
@@ -723,6 +832,11 @@
             "required": true,
             "type": "string",
             "description": "Product ID"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -738,5 +852,19 @@
         }
       }
     }
-  }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
 }

@@ -1,24 +1,34 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 
-// Temporary "fake login"
-router.post('/login', (req, res) => {
+// POST /auth/login
+/**
+ * #swagger.tags = ["Authentication"]
+ * #swagger.description = "Login with username and password to get a JWT token"
+ * #swagger.parameters['body'] = { 
+ *   in: 'body', 
+ *   description: 'User credentials', 
+ *   required: true, 
+ *   schema: { username: 'admin', password: 'password123' } 
+ * }
+ */
+router.post("/login", (req, res) => {
   const { username, password } = req.body;
 
   // For demo: accept any username/password
   // Replace with real DB user lookup & bcrypt.compare in production
-  if (username !== 'admin' || password !== 'password123') {
-    return res.status(401).json({ error: 'Invalid credentials' });
+  if (username !== "admin" || password !== "password123") {
+    return res.status(401).json({ error: "Invalid credentials" });
   }
 
   const payload = {
-    userId: '123',
+    userId: "123",
     username,
-    role: 'admin'
+    role: "admin"
   };
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
 
   res.json({ token });
 });

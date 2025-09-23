@@ -6,11 +6,11 @@ router.get("/", (req, res) => {
   //#swagger.tags=["Hello World"]
   res.send("Hello World!");
 });
-
-router.use("/users", require("./users"));
-router.use("/contacts", require("./contacts"));
-router.use("/tasks", require("./tasks"));
-router.use("/products", require("./products"));
-router.use('/auth', require('./auth')); 
+// All routes in routes/auth.js should have #swagger.tags=["Authentication"]
+router.use('/auth', require("./auth")); // Authentication routes
+router.use("/users", require("./users"));// User management routes
+router.use("/contacts", require("./contacts"));// Contact management routes
+router.use("/tasks", require("./tasks"));// Task management routes
+router.use("/products", require("./products"));// Product management routes
 
 module.exports = router;

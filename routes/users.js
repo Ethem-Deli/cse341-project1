@@ -24,11 +24,22 @@ router.get("/", usersController.getAll);
 router.get("/:id", validateObjectId, usersController.getSingle);
 
 // CREATE new user
+/**
+ * @route POST /users
+ * @security bearerAuth
+ */
 router.post("/", userValidation, usersController.createUser);
-
+/**
+ * @route PUT /users/{id}
+ * @security bearerAuth
+ */
 router.put("/:id", validateObjectId, userValidation, usersController.updateUser);
 
 // DELETE user by ID
+/**
+ * @route DELETE /users/{id}
+ * @security bearerAuth
+ */
 router.delete("/:id", validateObjectId, usersController.deleteUser);
 
 module.exports = router;

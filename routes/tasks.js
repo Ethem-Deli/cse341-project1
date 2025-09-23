@@ -10,7 +10,10 @@ router.get("/", controller.getAll);
 // Get a single task by ID
 router.get("/:id", validateObjectId, controller.getSingle);
 // Create a new task
-
+/**
+ * @route POST /tasks
+ * @security bearerAuth
+ */
 router.post(
   "/",
   [
@@ -21,6 +24,10 @@ router.post(
 );
 
 // Update an existing task by ID
+/**
+ * @route PUT /tasks/{id}
+ * @security bearerAuth
+ */
 router.put(
   "/:id",
   validateObjectId,
@@ -32,6 +39,10 @@ router.put(
 );
 
 //  Delete a task by ID
+/**
+ * @route DELETE /tasks/{id}
+ * @security bearerAuth
+ */
 router.delete("/:id", validateObjectId, controller.deleteTask);
 
 module.exports = router;

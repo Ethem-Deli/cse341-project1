@@ -48,7 +48,13 @@ const createContact = async (req, res, next) => {
       $lastName: "Doe",
       $email: "john@example.com",
       $favoriteColor: "blue",
-      $birthday: "1990-01-01"
+      $birthday: "1990-01-01",
+      $phone: "123-456-7890",
+      $address: "123 Main St",
+      $city: "Anytown",
+      $state: "CA",
+      $country: "USA",
+      $notes: "Some notes about the contact"
     }
   }
   #swagger.responses[201] = { description: "Contact created successfully" }
@@ -85,11 +91,17 @@ const updateContact = async (req, res, next) => {
     description: "Updated contact data",
     required: true,
     schema: {
-      firstName: "Jane",
-      lastName: "Smith",
+      firstName: "John",
+      lastName: "Doe",
       email: "john@example.com",
       favoriteColor: "blue",
-      birthday: "1990-01-01"
+      birthday: "1990-01-01",
+      phone: "123-456-7890",
+      address: "123 Main St",
+      city: "Anytown",
+      state: "CA",
+      country: "USA",
+      notes: "Some notes about the contact",
     }
   }
   #swagger.responses[200] = { description: "Contact updated successfully" }

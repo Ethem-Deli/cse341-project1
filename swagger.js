@@ -6,14 +6,14 @@ const doc = {
     description: "API for managing contacts and users",
   },
   
-  host: "localhost:3000", // Change to your server's host if youre using online link 
+  host: "localhost:3000", // Change to your server"s host if youre using online link 
   schemes: ["http", "https"],
    components: {// Add security definitions
     securitySchemes: {// Define bearerAuth scheme
       bearerAuth: {// Name of the security scheme
-        type: 'http',// HTTP authentication scheme
-        scheme: 'bearer',// Bearer token authentication type
-        bearerFormat: 'JWT'// Format of the bearer token 
+        type: "http",// HTTP authentication scheme
+        scheme: "bearer",// Bearer token authentication type
+        bearerFormat: "JWT"// Format of the bearer token 
       }
     }
   },

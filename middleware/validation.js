@@ -8,6 +8,7 @@ const saveContact = [
   body("email").isEmail().withMessage("Valid email is required"),
   body("favoriteColor").notEmpty().withMessage("Favorite color is required"),
   body("birthday").isISO8601().withMessage("Birthday must be a valid date"),
+  body("phone").optional().isString().withMessage("Phone must be text"),
   body("address").optional().isString().withMessage("Address must be text"),
   body("city").optional().isString().withMessage("City must be text"),
   body("state").optional().isString().withMessage("State must be text"),
