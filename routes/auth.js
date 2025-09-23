@@ -6,11 +6,11 @@ const router = express.Router();
 /**
  * #swagger.tags = ["Authentication"]
  * #swagger.description = "Login with username and password to get a JWT token"
- * #swagger.parameters['body'] = { 
- *   in: 'body', 
- *   description: 'User credentials', 
+ * #swagger.parameters["body"] = { 
+ *   in: "body", 
+ *   description: "User credentials", 
  *   required: true, 
- *   schema: { username: 'admin', password: 'password123' } 
+ *   schema: { username: "admin", password: "password123" } 
  * }
  */
 router.post("/login", (req, res) => {

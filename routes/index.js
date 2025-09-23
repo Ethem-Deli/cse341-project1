@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
   res.send("Hello World!");
 });
 // All routes in routes/auth.js should have #swagger.tags=["Authentication"]
-router.use('/auth', require("./auth")); // Authentication routes
+router.use("/auth", require("./auth")); // Authentication routes
 router.use("/users", require("./users"));// User management routes
 router.use("/contacts", require("./contacts"));// Contact management routes
 router.use("/tasks", require("./tasks"));// Task management routes
