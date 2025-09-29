@@ -1,4 +1,3 @@
-// swagger.js (your existing file extended)
 const swaggerAutogen = require("swagger-autogen")();
 
 const doc = {
@@ -25,8 +24,6 @@ const doc = {
     { name: "Tasks", description: "Task management endpoints" },
     { name: "Products", description: "Product management endpoints" },
   ],
-  // Do NOT set global security if you want GET endpoints public.
-  // security: [{ bearerAuth: [] }]
 };
 
 const outputFile = "./swagger.json";
