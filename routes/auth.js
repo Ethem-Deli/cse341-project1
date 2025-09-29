@@ -2,19 +2,12 @@ const router = require("express").Router();
 const passport = require("passport");
 const authController = require("../controllers/auth");
 
-/* POST Register
-   #swagger.tags = ["Auth"]
-*/
+ //POST Register
 router.post("/register", authController.register);
-/* POST Login
-   #swagger.tags = ["Auth"]
-*/
+//POST Login
 router.post("/login", authController.login);
 
-// Google OAuth entrypoint
-/* 
-  #swagger.tags = ["Auth"]  
-*/
+// Google OAuth entrypoint 
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -24,9 +17,6 @@ router.get(
 );
 
 // Google OAuth callback
-/* 
-  #swagger.tags = ["Auth"]  
-*/
 router.get(
   "/google/callback",
   passport.authenticate("google", {
@@ -36,19 +26,13 @@ router.get(
   authController.oauthCallback // signs JWT & respond/redirect
 );
 
-// Optional logout endpoint (just instruct client to delete token)
-/* 
-  #swagger.tags = ["Auth"]  
-*/
+//logout endpoint (just instruct client to delete token)
 router.get("/logout", (req, res) => {
   req.logout?.(); // only if using sessions
   res.json({ message: "Logged out" });
 });
 
-// Google OAuth failure
-/* 
-  #swagger.tags = ["Auth"]  
-*/
+//failure endpoint
 router.get("/google/failure", authController.googleFailure);
 
 module.exports = router;

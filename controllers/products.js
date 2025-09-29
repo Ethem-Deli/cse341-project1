@@ -3,8 +3,6 @@ const Product = require("../models/product");
 
 exports.getAllProducts = async (req, res, next) => {
   /* GET all products
-  //#swagger.tags=["Products"]
-  /*
     #swagger.tags = ["Products"]
     #swagger.description = "Get a list of all products"
     #swagger.responses[200] = {
@@ -31,8 +29,6 @@ exports.getAllProducts = async (req, res, next) => {
 
 exports.getProductById = async (req, res, next) => {
   /* GET single product by ID
-  //#swagger.tags=["Products"]
-  /*
     #swagger.tags = ["Products"]
     #swagger.description = "Get a single product by ID"
     #swagger.parameters["id"] = {
@@ -55,8 +51,6 @@ exports.getProductById = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
   /* CREATE new product
-   //#swagger.tags=["Products"]
-  /*
   #swagger.tags = ["Products"]
   #swagger.description = "Create a new product"
   #swagger.parameters["body"] = {
@@ -87,7 +81,6 @@ exports.createProduct = async (req, res, next) => {
 
 exports.updateProduct = async (req, res, next) => {
   /* UPDATE product by ID
-   /*
   #swagger.tags = ["Products"]
   #swagger.description = "Update an existing product"
   #swagger.parameters["id"] = {
@@ -128,8 +121,6 @@ exports.updateProduct = async (req, res, next) => {
 
 exports.deleteProduct = async (req, res, next) => {
   /* DELETE product by ID
-   //#swagger.tags=["Products"]
-  /*
     #swagger.tags = ["Products"]
     #swagger.description = "Delete a product by ID"
     #swagger.parameters["id"] = {

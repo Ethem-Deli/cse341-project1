@@ -4,19 +4,16 @@ const validate = require("../middleware/validate");
 const { productCreate, productUpdate } = require("../validation/productValidation");
 const { ensureAuthenticated } = require("../middleware/ensureAuth");
 
-/* GET all products */
+// Public routes
+// Get all products
 router.get("/", productsController.getAllProducts);
-
-/* GET single product by ID */
+// Get product by ID
 router.get("/:id", productsController.getProductById);
-
-/* CREATE new product */
+// Create new product
 router.post("/", ensureAuthenticated, validate(productCreate), productsController.createProduct);
-
-/* UPDATE product by ID */
+// Update product by ID
 router.put("/:id", ensureAuthenticated, validate(productUpdate), productsController.updateProduct);
-
-/* DELETE product by ID */
+// Delete product by ID
 router.delete("/:id", ensureAuthenticated, productsController.deleteProduct);
-
+// Export the router
 module.exports = router;

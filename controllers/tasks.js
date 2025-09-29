@@ -14,8 +14,6 @@ exports.getAll = async (req, res, next) => {
 
 exports.getSingle = async (req, res, next) => {
   /*Get Single Task by ID
-  //#swagger.tags=["Tasks"]
-  /*
   #swagger.tags = ["Tasks"]
   #swagger.description = "Get a single task by ID"
   #swagger.parameters["id"] = {
@@ -38,8 +36,6 @@ exports.getSingle = async (req, res, next) => {
 
 exports.createTask = async (req, res, next) => {
   /* CREATE task
-  //#swagger.tags=["Tasks"]
-  /*
   #swagger.tags = ["Tasks"]
   #swagger.description = "Create a new task"
   #swagger.parameters["body"] = {
@@ -69,8 +65,6 @@ exports.createTask = async (req, res, next) => {
 
 exports.updateTask = async (req, res, next) => {
   /* UPDATE task
-  //#swagger.tags=["Tasks"]
-  /*
   #swagger.tags = ["Tasks"]
   #swagger.description = "Update an existing task"
   #swagger.parameters["id"] = {
@@ -108,8 +102,6 @@ exports.updateTask = async (req, res, next) => {
 
 exports.deleteTask = async (req, res, next) => {
   /* DELETE task  
-  //#swagger.tags=["Tasks"]
-   /*
   #swagger.tags = ["Tasks"]
   #swagger.description = "Delete a task by ID"
   #swagger.parameters["id"] = {

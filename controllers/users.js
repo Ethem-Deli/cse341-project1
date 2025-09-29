@@ -3,7 +3,6 @@ const User = require("../models/user");
 exports.getAll = async (req, res, next) => {
   /* GET all users
    #swagger.tags = ["Users"]
-   #swagger.security = [{ "bearerAuth": [] }]
 */
   try {
     const users = await User.find().select("-password"); // don’t send hashed passwords
@@ -16,7 +15,6 @@ exports.getAll = async (req, res, next) => {
 exports.getSingle = async (req, res, next) => {
   /* GET single user
    #swagger.tags = ["Users"]
-   #swagger.security = [{ "bearerAuth": [] }]
 */
   try {
     const user = await User.findById(req.params.id).select("-password");
@@ -30,8 +28,6 @@ exports.getSingle = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
   /* CREATE user
-   #swagger.tags = ["Users"]
-   #swagger.security = [{ "bearerAuth": [] }] // if you want register protected
     #swagger.tags = ["Users"]
     #swagger.description = "Create a new user"
     #swagger.parameters["body"] = {
@@ -59,11 +55,6 @@ exports.createUser = async (req, res, next) => {
 
 exports.updateUser = async (req, res, next) => {
   /* UPDATE user
-   #swagger.tags = ["Users"]
-   #swagger.security = [{ "bearerAuth": [] }]
-*/
-//#swagger.tags=["Users"]
-  /*
   #swagger.tags = ["Users"]
   #swagger.description = "Update an existing user"
   #swagger.parameters["id"] = {
@@ -100,11 +91,6 @@ exports.updateUser = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   /* DELETE user
-   #swagger.tags = ["Users"]
-   #swagger.security = [{ "bearerAuth": [] }]
-*/
-  //#swagger.tags=["Users"]
-  /*
   #swagger.tags = ["Users"]
   #swagger.description = "Delete a user by ID"
   #swagger.parameters["id"] = {

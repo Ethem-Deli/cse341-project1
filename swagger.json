@@ -206,12 +206,7 @@
           "401": {
             "description": "Unauthorized"
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -268,12 +263,7 @@
           "401": {
             "description": "Unauthorized"
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       }
     },
     "/users/{id}": {
@@ -305,12 +295,7 @@
           "404": {
             "description": "Not Found"
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       },
       "put": {
         "tags": [
@@ -370,12 +355,7 @@
           "404": {
             "description": "User not found"
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -409,12 +389,7 @@
           "404": {
             "description": "User not found"
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       }
     },
     "/contacts/": {

@@ -27,8 +27,6 @@ exports.getSingle = async (req, res, next) => {
 
 exports.createContact = async (req, res, next) => {
   /*CREATE contact
-  //#swagger.tags=["Contacts"]
-  /*
   #swagger.tags = ["Contacts"]
   #swagger.description = "Create a new contact"
   #swagger.parameters["body"] = {
@@ -63,8 +61,6 @@ exports.createContact = async (req, res, next) => {
 
 exports.updateContact = async (req, res, next) => {
   /* UPDATE contact
-  //#swagger.tags=["Contacts"]
-  /*
   #swagger.tags = ["Contacts"]
   #swagger.description = "Update an existing contact"
   #swagger.parameters["id"] = {
@@ -109,8 +105,6 @@ exports.updateContact = async (req, res, next) => {
 
 exports.deleteContact = async (req, res, next) => {
   /* DELETE contact
-   //#swagger.tags=["Contacts"]
-  /*
   #swagger.tags = ["Contacts"]
   #swagger.description = "Delete a contact by ID"
   #swagger.parameters["id"] = {
