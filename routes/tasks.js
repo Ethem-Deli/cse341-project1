@@ -1,40 +1,22 @@
-const express = require("express");
+const router = require("express").Router();
+const tasksController = require("../controllers/tasks");
 const validate = require("../middleware/validate");
 const { taskCreate, taskUpdate } = require("../validation/taskValidation");
-const validateObjectId = require("../middleware/validateObjectId");
-const controller = require("../controllers/tasks");
+const { ensureAuthenticated } = require("../middleware/ensureAuth");
 
-// Create a router instance
-const router = express.Router();
+// CREATE new task
+router.post("/", ensureAuthenticated, validate(taskCreate), tasksController.createTask);
 
-// Get all tasks
-router.get("/", controller.getAll);
+// GET all tasks
+router.get("/", tasksController.getAll);
 
-// Get a single task by ID
-router.get("/:id", validateObjectId, controller.getSingle);
+// GET single task by ID
+router.get("/:id", tasksController.getSingle);
 
-// Create a new task
-/**
- * @route POST /tasks
- * @security bearerAuth
- */
-router.post("/", validate(taskCreate), controller.createTask);
+// UPDATE task
+router.put("/:id", ensureAuthenticated, validate(taskUpdate), tasksController.updateTask);
 
-// Update an existing task by ID
-/**
- * @route PUT /tasks/{id}
- * @security bearerAuth
- */
-router.put("/:id", validateObjectId, validate(taskUpdate), controller.updateTask);
-
-// Delete a task by ID
-/**
- * @route DELETE /tasks/{id}
- * @security bearerAuth
- */
-router.delete("/:id", validateObjectId, controller.deleteTask);
+// DELETE task
+router.delete("/:id", ensureAuthenticated, tasksController.deleteTask);
 
 module.exports = router;
-
-
-//**END**

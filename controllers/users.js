@@ -1,26 +1,25 @@
 const User = require("../models/user");
-const mongoose = require("mongoose");
 
-// Get all users
-const getAll = async (req, res, next) => {
-  //#swagger.tags=["Users"]
+exports.getAll = async (req, res, next) => {
+  /* GET all users
+   #swagger.tags = ["Users"]
+   #swagger.security = [{ "bearerAuth": [] }]
+*/
   try {
-    const users = await User.find().select("-password");
+    const users = await User.find().select("-password"); // don’t send hashed passwords
     res.json(users);
   } catch (err) {
     next(err);
   }
 };
 
-// Get single user
-const getSingle = async (req, res, next) => {
-  //#swagger.tags=["Users"]
+exports.getSingle = async (req, res, next) => {
+  /* GET single user
+   #swagger.tags = ["Users"]
+   #swagger.security = [{ "bearerAuth": [] }]
+*/
   try {
-    const id = req.params.id;
-    if (id && !mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid id format" });
-    }
-    const user = await User.findById(id).select("-password");
+    const user = await User.findById(req.params.id).select("-password");
     if (!user) return res.status(404).json({ error: "User not found" });
     res.json(user);
   } catch (err) {
@@ -28,10 +27,11 @@ const getSingle = async (req, res, next) => {
   }
 };
 
-// Create user
-const createUser = async (req, res, next) => {
-  //#swagger.tags=["Users"]
-  /*
+
+exports.createUser = async (req, res, next) => {
+  /* CREATE user
+   #swagger.tags = ["Users"]
+   #swagger.security = [{ "bearerAuth": [] }] // if you want register protected
     #swagger.tags = ["Users"]
     #swagger.description = "Create a new user"
     #swagger.parameters["body"] = {
@@ -49,26 +49,20 @@ const createUser = async (req, res, next) => {
     #swagger.responses[400] = { description: "Validation error" }
   */
   try {
-    const data = req.body;
-    const user = new User(data);
+    const user = new User(req.body); // bcrypt runs in pre-save
     await user.save();
-    const out = user.toObject();
-    delete out.password;
-    res.status(201).json(out);
+    res.status(201).json(user);
   } catch (err) {
-    if (err.code === 11000) {
-      return res.status(409).json({ error: "Email already exists" });
-    }
-    if (err.name === "ValidationError") {
-      return res.status(400).json({ error: err.message });
-    }
     next(err);
   }
 };
 
-// Update user
-const updateUser = async (req, res, next) => {
-  //#swagger.tags=["Users"]
+exports.updateUser = async (req, res, next) => {
+  /* UPDATE user
+   #swagger.tags = ["Users"]
+   #swagger.security = [{ "bearerAuth": [] }]
+*/
+//#swagger.tags=["Users"]
   /*
   #swagger.tags = ["Users"]
   #swagger.description = "Update an existing user"
@@ -93,23 +87,22 @@ const updateUser = async (req, res, next) => {
   #swagger.responses[404] = { description: "User not found" }
 */
   try {
-    const id = req.params.id;
-    if (id && !mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid id format" });
-    }
-    const updated = await User.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }).select("-password");
+    const updated = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    }).select("-password");
     if (!updated) return res.status(404).json({ error: "User not found" });
     res.json(updated);
   } catch (err) {
-    if (err.name === "ValidationError") {
-      return res.status(400).json({ error: err.message });
-    }
     next(err);
   }
 };
 
-// Delete user
-const deleteUser = async (req, res, next) => {
+exports.deleteUser = async (req, res, next) => {
+  /* DELETE user
+   #swagger.tags = ["Users"]
+   #swagger.security = [{ "bearerAuth": [] }]
+*/
   //#swagger.tags=["Users"]
   /*
   #swagger.tags = ["Users"]
@@ -124,22 +117,10 @@ const deleteUser = async (req, res, next) => {
   #swagger.responses[404] = { description: "User not found" }
 */
   try {
-    const id = req.params.id;
-    if (id && !mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid id format" });
-    }
-    const deleted = await User.findByIdAndDelete(id);
+    const deleted = await User.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ error: "User not found" });
-    res.status(204).send();
+    res.json({ message: "User deleted" });
   } catch (err) {
     next(err);
   }
-};
-
-module.exports = {
-  getAll,
-  getSingle,
-  createUser,
-  updateUser,
-  deleteUser
 };

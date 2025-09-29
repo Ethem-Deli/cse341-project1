@@ -1,19 +1,19 @@
 const Task = require("../models/task");
 
-// Get all tasks
-async function getAll(req, res) {
-  //#swagger.tags=["Tasks"]
+exports.getAll = async (req, res, next) => {
+  /* GET all tasks
+   #swagger.tags = ["Tasks"]
+*/
   try {
-    const docs = await Task.find();
-    res.json(docs);
+    const tasks = await Task.find();
+    res.json(tasks);
   } catch (err) {
-    console.error("getAll tasks error:", err);
-    res.status(500).json({ error: "Server error" });
+    next(err);
   }
-}
+};
 
-// Get a single task by ID
-async function getSingle(req, res) {
+exports.getSingle = async (req, res, next) => {
+  /*Get Single Task by ID
   //#swagger.tags=["Tasks"]
   /*
   #swagger.tags = ["Tasks"]
@@ -28,17 +28,16 @@ async function getSingle(req, res) {
   #swagger.responses[404] = { description: "Task not found" }
 */
   try {
-    const doc = await Task.findById(req.params.id);
-    if (!doc) return res.status(404).json({ error: "Task not found" });
-    res.json(doc);
+    const task = await Task.findById(req.params.id);
+    if (!task) return res.status(404).json({ error: "Task not found" });
+    res.json(task);
   } catch (err) {
-    console.error("getSingle task error:", err);
-    res.status(500).json({ error: "Server error" });
+    next(err);
   }
-}
+};
 
-// Create a new task
-async function createTask(req, res) {
+exports.createTask = async (req, res, next) => {
+  /* CREATE task
   //#swagger.tags=["Tasks"]
   /*
   #swagger.tags = ["Tasks"]
@@ -59,20 +58,17 @@ async function createTask(req, res) {
   #swagger.responses[400] = { description: "Validation error" }
 */
   try {
-    const task = new Task(req.body);
-    await task.save();
-    res.status(201).json(task);
+    const newTask = new Task(req.body);
+    await newTask.save();
+    res.status(201).json(newTask);
   } catch (err) {
-    console.error("createTask error:", err);
-    if (err.name === "ValidationError") {
-      return res.status(400).json({ error: err.message });
-    }
-    res.status(500).json({ error: "Server error" });
+    next(err);
   }
-}
+};
 
-// Update an existing task by ID
-async function updateTask(req, res) {
+
+exports.updateTask = async (req, res, next) => {
+  /* UPDATE task
   //#swagger.tags=["Tasks"]
   /*
   #swagger.tags = ["Tasks"]
@@ -101,21 +97,17 @@ async function updateTask(req, res) {
   try {
     const updated = await Task.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
-      runValidators: true
+      runValidators: true,
     });
     if (!updated) return res.status(404).json({ error: "Task not found" });
     res.json(updated);
   } catch (err) {
-    console.error("updateTask error:", err);
-    if (err.name === "ValidationError") {
-      return res.status(400).json({ error: err.message });
-    }
-    res.status(500).json({ error: "Server error" });
+    next(err);
   }
-}
+};
 
-// Delete a task by ID
-async function deleteTask(req, res) {
+exports.deleteTask = async (req, res, next) => {
+  /* DELETE task  
   //#swagger.tags=["Tasks"]
    /*
   #swagger.tags = ["Tasks"]
@@ -130,19 +122,10 @@ async function deleteTask(req, res) {
   #swagger.responses[404] = { description: "Task not found" }
 */
   try {
-    const removed = await Task.findByIdAndDelete(req.params.id);
-    if (!removed) return res.status(404).json({ error: "Task not found" });
+    const deleted = await Task.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ error: "Task not found" });
     res.json({ message: "Task deleted" });
   } catch (err) {
-    console.error("deleteTask error:", err);
-    res.status(500).json({ error: "Server error" });
+    next(err);
   }
-}
-
-module.exports = {
-  getAll,
-  getSingle,
-  createTask,
-  updateTask,
-  deleteTask
 };

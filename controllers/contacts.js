@@ -1,14 +1,9 @@
 const Contact = require("../models/contact");
-const mongoose = require("mongoose");
-const express = require("express");
-const router = express.Router();
-const validate = require("../middleware/validate");
-const { contactCreate, contactUpdate } = require("../validation/contactValidation");
-const { ensureAuthenticated } = require("../auth/middleware"); // optional auth middleware
 
-// Get all contacts
-const getAll = async (req, res, next) => {
-  //#swagger.tags=["Contacts"]
+exports.getAll = async (req, res, next) => {
+  /* GET all contacts
+   #swagger.tags = ["Contacts"]
+*/
   try {
     const contacts = await Contact.find();
     res.json(contacts);
@@ -17,15 +12,12 @@ const getAll = async (req, res, next) => {
   }
 };
 
-// Get single contact
-const getSingle = async (req, res, next) => {
-  //#swagger.tags=["Contacts"]
+exports.getSingle = async (req, res, next) => {
+  /* GET single contact
+   #swagger.tags = ["Contacts"]
+*/
   try {
-    const id = req.params.id;
-    if (id && !mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid id format" });
-    }
-    const contact = await Contact.findById(id);
+    const contact = await Contact.findById(req.params.id);
     if (!contact) return res.status(404).json({ error: "Contact not found" });
     res.json(contact);
   } catch (err) {
@@ -33,8 +25,8 @@ const getSingle = async (req, res, next) => {
   }
 };
 
-// Create contact
-const createContact = async (req, res, next) => {
+exports.createContact = async (req, res, next) => {
+  /*CREATE contact
   //#swagger.tags=["Contacts"]
   /*
   #swagger.tags = ["Contacts"]
@@ -61,21 +53,16 @@ const createContact = async (req, res, next) => {
   #swagger.responses[400] = { description: "Validation error" }
 */
   try {
-    const data = req.body;
-    const contact = new Contact(data);
-    await contact.save();
-    res.status(201).json(contact);
+    const newContact = new Contact(req.body);
+    await newContact.save();
+    res.status(201).json(newContact);
   } catch (err) {
-    // Mongoose validation error
-    if (err.name === "ValidationError") {
-      return res.status(400).json({ error: err.message });
-    }
     next(err);
   }
 };
 
-// Update contact
-const updateContact = async (req, res, next) => {
+exports.updateContact = async (req, res, next) => {
+  /* UPDATE contact
   //#swagger.tags=["Contacts"]
   /*
   #swagger.tags = ["Contacts"]
@@ -109,24 +96,20 @@ const updateContact = async (req, res, next) => {
   #swagger.responses[404] = { description: "Contact not found" }
 */
   try {
-    const id = req.params.id;
-    if (id && !mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid id format" });
-    }
-    const updated = await Contact.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+    const updated = await Contact.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
     if (!updated) return res.status(404).json({ error: "Contact not found" });
     res.json(updated);
   } catch (err) {
-    if (err.name === "ValidationError") {
-      return res.status(400).json({ error: err.message });
-    }
     next(err);
   }
 };
 
-// Delete contact
-const deleteContact = async (req, res, next) => {
-  //#swagger.tags=["Contacts"]
+exports.deleteContact = async (req, res, next) => {
+  /* DELETE contact
+   //#swagger.tags=["Contacts"]
   /*
   #swagger.tags = ["Contacts"]
   #swagger.description = "Delete a contact by ID"
@@ -140,22 +123,10 @@ const deleteContact = async (req, res, next) => {
   #swagger.responses[404] = { description: "Contact not found" }
 */
   try {
-    const id = req.params.id;
-    if (id && !mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid id format" });
-    }
-    const deleted = await Contact.findByIdAndDelete(id);
+    const deleted = await Contact.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ error: "Contact not found" });
-    res.status(204).send();
+    res.json({ message: "Contact deleted" });
   } catch (err) {
     next(err);
   }
-};
-
-module.exports = {
-  getAll,
-  getSingle,
-  createContact,
-  updateContact,
-  deleteContact
 };

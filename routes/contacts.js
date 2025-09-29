@@ -1,35 +1,16 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const contactsController = require("../controllers/contacts");
 const validate = require("../middleware/validate");
 const { contactCreate, contactUpdate } = require("../validation/contactValidation");
-const { ensureAuthenticated } = require("../auth/middleware");
-const validateObjectId = require("../middleware/validateObjectId");
+const { ensureAuthenticated } = require("../middleware/ensureAuth");
 
-// GET all contacts
+// Public: view contacts
 router.get("/", contactsController.getAll);
+router.get("/:id", contactsController.getSingle);
 
-// GET one contact
-router.get("/:id", validateObjectId, contactsController.getSingle);
-
-// CREATE new contact
-/**
- * @route POST /contacts
- * @security bearerAuth
- */
+// Protected: create/update/delete
 router.post("/", ensureAuthenticated, validate(contactCreate), contactsController.createContact);
-// UPDATE a contact
-/**
- * @route PUT /contacts/{id}
- * @security bearerAuth
- */
-router.put("/:id", ensureAuthenticated, validateObjectId, validate(contactUpdate), contactsController.updateContact);
-
-// DELETE a contact
-/**
- * @route DELETE /contacts/{id}
- * @security bearerAuth
- */
-router.delete("/:id", ensureAuthenticated, validateObjectId, contactsController.deleteContact);
+router.put("/:id", ensureAuthenticated, validate(contactUpdate), contactsController.updateContact);
+router.delete("/:id", ensureAuthenticated, contactsController.deleteContact);
 
 module.exports = router;

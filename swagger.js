@@ -1,30 +1,37 @@
+// swagger.js (your existing file extended)
 const swaggerAutogen = require("swagger-autogen")();
-// Swagger configuration
+
 const doc = {
   info: {
     title: "Contacts & Users API",
-    description: "API for managing contacts and users",
+    description: "API for managing contacts, users and authentication",
   },
-  
-  host: "localhost:3000", // Change to your server"s host if youre using online link 
+  host: "localhost:3000",
   schemes: ["http", "https"],
-   components: {// Add security definitions
-    securitySchemes: {// Define bearerAuth scheme
-      bearerAuth: {// Name of the security scheme
-        type: "http",// HTTP authentication scheme
-        scheme: "bearer",// Bearer token authentication type
-        bearerFormat: "JWT"// Format of the bearer token 
-      }
-    }
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+      },
+    },
   },
-  // Apply security globally to all endpoints
-  security: [{ bearerAuth: [] }] // applies globally
+  tags: [
+    { name: "Auth", description: "Register" },
+    { name: "Auth", description: "Login" },
+    { name: "Users", description: "User management endpoints" },
+    { name: "Contacts", description: "Contact management endpoints" },
+    { name: "Tasks", description: "Task management endpoints" },
+    { name: "Products", description: "Product management endpoints" },
+  ],
+  // Do NOT set global security if you want GET endpoints public.
+  // security: [{ bearerAuth: [] }]
 };
 
 const outputFile = "./swagger.json";
+// List files that define your routes; make sure auth.js is first so /auth endpoints show at top
 const endpointsFiles = ["./routes/index.js"];
-
-// Generate swagger.json
 swaggerAutogen(outputFile, endpointsFiles, doc);
 // Note: To generate the swagger.json file, run this file with Node.js
 // Command: node swagger.js

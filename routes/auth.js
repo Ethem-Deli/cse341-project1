@@ -1,36 +1,54 @@
-const express = require("express");
-const jwt = require("jsonwebtoken");
-const router = express.Router();
+const router = require("express").Router();
+const passport = require("passport");
+const authController = require("../controllers/auth");
 
-// POST /auth/login
-/**
- * #swagger.tags = ["Authentication"]
- * #swagger.description = "Login with username and password to get a JWT token"
- * #swagger.parameters["body"] = { 
- *   in: "body", 
- *   description: "User credentials", 
- *   required: true, 
- *   schema: { username: "admin", password: "password123" } 
- * }
- */
-router.post("/login", (req, res) => {
-  const { username, password } = req.body;
+/* POST Register
+   #swagger.tags = ["Auth"]
+*/
+router.post("/register", authController.register);
+/* POST Login
+   #swagger.tags = ["Auth"]
+*/
+router.post("/login", authController.login);
 
-  // For demo: accept any username/password
-  // Replace with real DB user lookup & bcrypt.compare in production
-  if (username !== "admin" || password !== "password123") {
-    return res.status(401).json({ error: "Invalid credentials" });
-  }
+// Google OAuth entrypoint
+/* 
+  #swagger.tags = ["Auth"]  
+*/
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    session: false,
+  })
+);
 
-  const payload = {
-    userId: "123",
-    username,
-    role: "admin"
-  };
+// Google OAuth callback
+/* 
+  #swagger.tags = ["Auth"]  
+*/
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    session: false,
+    failureRedirect: "/auth/google/failure",
+  }),
+  authController.oauthCallback // signs JWT & respond/redirect
+);
 
-  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
-
-  res.json({ token });
+// Optional logout endpoint (just instruct client to delete token)
+/* 
+  #swagger.tags = ["Auth"]  
+*/
+router.get("/logout", (req, res) => {
+  req.logout?.(); // only if using sessions
+  res.json({ message: "Logged out" });
 });
+
+// Google OAuth failure
+/* 
+  #swagger.tags = ["Auth"]  
+*/
+router.get("/google/failure", authController.googleFailure);
 
 module.exports = router;

@@ -2,12 +2,17 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const passport = require("passport");
+
+const configurePassport = require("./config/passport");
+configurePassport();
 
 const apiRouter = require("./routes/index");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(passport.initialize());
 
 // Mount API router
 app.use("/", apiRouter);
@@ -24,17 +29,16 @@ app.use((err, req, res, next) => {
   res.status(status).json({ error: err.message || "Internal Server Error" });
 });
 
-// Connect to MongoDB and start server
 const PORT = process.env.PORT || 3000;
-const MONGODB_URL = process.env.MONGODB_URL;
+const MONGO_URL = process.env.MONGODB_URL;
 
-if (!MONGODB_URL) {
+if (!MONGO_URL) {
   console.error("MONGODB_URL not set. Create .env or configure Render env var.");
   process.exit(1);
 }
 
 mongoose
-  .connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("Connected to MongoDB");
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

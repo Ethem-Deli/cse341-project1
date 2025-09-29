@@ -1,36 +1,22 @@
-const express = require("express");
-const validate = require("../middleware/validate");
-const validateObjectId = require("../middleware/validateObjectId");
+const router = require("express").Router();
 const usersController = require("../controllers/users");
+const validate = require("../middleware/validate");
 const { userCreate, userUpdate } = require("../validation/userValidation");
+const { ensureAuthenticated } = require("../middleware/ensureAuth");
 
-const router = express.Router();
+// GET all users (protected)
+router.get("/", ensureAuthenticated, usersController.getAll);
 
-// GET all users
-router.get("/", usersController.getAll);
+// GET user by ID (protected)
+router.get("/:id", ensureAuthenticated, usersController.getSingle);
 
-// GET one user by ID
-router.get("/:id", validateObjectId, usersController.getSingle);
+// POST create user (protected or open depending on your app)
+router.post("/", ensureAuthenticated, validate(userCreate), usersController.createUser);
 
-// CREATE new user
-/**
- * @route POST /users
- * @security bearerAuth
- */
-router.post("/", validate(userCreate), usersController.createUser);
+// PUT update user
+router.put("/:id", ensureAuthenticated, validate(userUpdate), usersController.updateUser);
 
-// UPDATE user by ID
-/**
- * @route PUT /users/{id}
- * @security bearerAuth
- */
-router.put("/:id", validateObjectId, validate(userUpdate), usersController.updateUser);
-
-// DELETE user by ID
-/**
- * @route DELETE /users/{id}
- * @security bearerAuth
- */
-router.delete("/:id", validateObjectId, usersController.deleteUser);
+// DELETE user
+router.delete("/:id", ensureAuthenticated, usersController.deleteUser);
 
 module.exports = router;

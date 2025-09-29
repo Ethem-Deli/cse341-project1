@@ -2,11 +2,37 @@
   "swagger": "2.0",
   "info": {
     "title": "Contacts & Users API",
-    "description": "API for managing contacts and users",
+    "description": "API for managing contacts, users and authentication",
     "version": "1.0.0"
   },
-   "host": "cse341-project1-k82o.onrender.com",
+  "host": "cse341-project1-k82o.onrender.com",
   "basePath": "/",
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Register"
+    },
+    {
+      "name": "Auth",
+      "description": "Login"
+    },
+    {
+      "name": "Users",
+      "description": "User management endpoints"
+    },
+    {
+      "name": "Contacts",
+      "description": "Contact management endpoints"
+    },
+    {
+      "name": "Tasks",
+      "description": "Task management endpoints"
+    },
+    {
+      "name": "Products",
+      "description": "Product management endpoints"
+    }
+  ],
   "schemes": [
     "https"
   ],
@@ -24,8 +50,11 @@
         }
       }
     },
-    "/auth/login": {
+    "/auth/register": {
       "post": {
+        "tags": [
+          "Auth"
+        ],
         "description": "",
         "parameters": [
           {
@@ -34,7 +63,52 @@
             "schema": {
               "type": "object",
               "properties": {
-                "username": {
+                "firstName": {
+                  "example": "any"
+                },
+                "lastName": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "role": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
                   "example": "any"
                 },
                 "password": {
@@ -48,6 +122,64 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/google": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/google/failure": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "responses": {
           "401": {
             "description": "Unauthorized"
           }
@@ -60,11 +192,26 @@
           "Users"
         ],
         "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -72,6 +219,11 @@
         ],
         "description": "Create a new user",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -113,10 +265,15 @@
           "400": {
             "description": "Validation error"
           },
-          "409": {
-            "description": "Conflict"
+          "401": {
+            "description": "Unauthorized"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/users/{id}": {
@@ -131,19 +288,29 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
           },
-          "400": {
-            "description": "Bad Request"
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Not Found"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -157,6 +324,11 @@
             "required": true,
             "type": "string",
             "description": "User ID"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           },
           {
             "name": "body",
@@ -192,10 +364,18 @@
           "400": {
             "description": "Validation error"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "User not found"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -209,19 +389,32 @@
             "required": true,
             "type": "string",
             "description": "User ID"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
           "204": {
             "description": "User deleted successfully"
           },
-          "400": {
-            "description": "Bad Request"
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "User not found"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/contacts/": {
@@ -347,9 +540,6 @@
           "200": {
             "description": "OK"
           },
-          "400": {
-            "description": "Bad Request"
-          },
           "404": {
             "description": "Not Found"
           }
@@ -464,11 +654,11 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
           "204": {
             "description": "Contact deleted successfully"
-          },
-          "400": {
-            "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
@@ -480,26 +670,17 @@
       }
     },
     "/tasks/": {
-      "get": {
-        "tags": [
-          "Tasks"
-        ],
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
       "post": {
         "tags": [
           "Tasks"
         ],
         "description": "Create a new task",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -542,8 +723,19 @@
           "400": {
             "description": "Validation error"
           },
-          "500": {
-            "description": "Internal Server Error"
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Tasks"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -567,14 +759,8 @@
           "200": {
             "description": "Task found"
           },
-          "400": {
-            "description": "Bad Request"
-          },
           "404": {
             "description": "Task not found"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       },
@@ -590,6 +776,11 @@
             "required": true,
             "type": "string",
             "description": "Task ID"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           },
           {
             "name": "body",
@@ -629,11 +820,11 @@
           "400": {
             "description": "Validation error"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Task not found"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       },
@@ -649,20 +840,22 @@
             "required": true,
             "type": "string",
             "description": "Task ID"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "Task deleted successfully"
           },
-          "400": {
-            "description": "Bad Request"
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Task not found"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
@@ -919,10 +1112,5 @@
         "bearerFormat": "JWT"
       }
     }
-  },
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ]
+  }
 }

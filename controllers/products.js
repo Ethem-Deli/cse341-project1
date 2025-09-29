@@ -1,7 +1,8 @@
 const Product = require("../models/product");
 
-// Get all products
+
 exports.getAllProducts = async (req, res, next) => {
+  /* GET all products
   //#swagger.tags=["Products"]
   /*
     #swagger.tags = ["Products"]
@@ -19,16 +20,17 @@ exports.getAllProducts = async (req, res, next) => {
       ]
     }
   */
-  try {
-    const products = await Product.find().sort({ createdAt: -1 });
+ try {
+    const products = await Product.find();
     res.json(products);
   } catch (err) {
     next(err);
   }
 };
 
-// Get single product
+
 exports.getProductById = async (req, res, next) => {
+  /* GET single product by ID
   //#swagger.tags=["Products"]
   /*
     #swagger.tags = ["Products"]
@@ -51,9 +53,9 @@ exports.getProductById = async (req, res, next) => {
   }
 };
 
-// Create product
 exports.createProduct = async (req, res, next) => {
-  //#swagger.tags=["Products"]
+  /* CREATE new product
+   //#swagger.tags=["Products"]
   /*
   #swagger.tags = ["Products"]
   #swagger.description = "Create a new product"
@@ -74,19 +76,18 @@ exports.createProduct = async (req, res, next) => {
   #swagger.responses[201] = { description: "Product created successfully" }
   #swagger.responses[400] = { description: "Validation error" }
 */
-
   try {
     const newProduct = new Product(req.body);
-    const saved = await newProduct.save();
-    res.status(201).json(saved);
+    await newProduct.save();
+    res.status(201).json(newProduct);
   } catch (err) {
     next(err);
   }
 };
 
-// Update product
 exports.updateProduct = async (req, res, next) => {
-  /*
+  /* UPDATE product by ID
+   /*
   #swagger.tags = ["Products"]
   #swagger.description = "Update an existing product"
   #swagger.parameters["id"] = {
@@ -113,11 +114,10 @@ exports.updateProduct = async (req, res, next) => {
   #swagger.responses[400] = { description: "Validation error" }
   #swagger.responses[404] = { description: "Product not found" }
 */
-
   try {
     const updated = await Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
-      runValidators: true
+      runValidators: true,
     });
     if (!updated) return res.status(404).json({ error: "Product not found" });
     res.json(updated);
@@ -126,9 +126,9 @@ exports.updateProduct = async (req, res, next) => {
   }
 };
 
-// Delete product
 exports.deleteProduct = async (req, res, next) => {
-  //#swagger.tags=["Products"]
+  /* DELETE product by ID
+   //#swagger.tags=["Products"]
   /*
     #swagger.tags = ["Products"]
     #swagger.description = "Delete a product by ID"
@@ -144,7 +144,7 @@ exports.deleteProduct = async (req, res, next) => {
   try {
     const deleted = await Product.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ error: "Product not found" });
-    res.json({ message: "Deleted", id: deleted._id });
+    res.json({ message: "Product deleted" });
   } catch (err) {
     next(err);
   }
