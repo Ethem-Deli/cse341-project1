@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-exports.ensureAuthenticated = function (req, res, next) {
+const ensureAuthenticated = function (req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ error: "Authorization header missing or invalid" });
@@ -15,3 +15,5 @@ exports.ensureAuthenticated = function (req, res, next) {
     res.status(401).json({ error: "Invalid token" });
   }
 };
+
+module.exports = { ensureAuthenticated };

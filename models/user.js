@@ -7,41 +7,42 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, lowercase: true, match: /.+\@.+\..+/ },
   password: { type: String }, // optional for OAuth users
   role: { type: String, enum: ["admin", "user"], default: "user" },
-  provider: { type: String, default: "local" }, // "local" or "google" etc
+  provider: { type: String, default: "local" }, // "local", "google", "github", ...
   providerId: { type: String, default: null }, // id from OAuth provider
   bio: { type: String, default: "" },
   createdAt: { type: Date, default: Date.now },
 });
 
 // Hash password before saving (only for local users)
-userSchema.pre("save", async function(next) {
-  if (!this.isModified("password") || !this.password) return next();
+userSchema.pre("save", async function (next) {
   try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
+    if (!this.isModified("password")) return next();
+    if (!this.password) return next();
+    const saltRounds = parseInt(process.env.SALT_ROUNDS || "10", 10);
+    const hash = await bcrypt.hash(this.password, saltRounds);
+    this.password = hash;
+    return next();
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 
-// Compare candidate password
-userSchema.methods.comparePassword = function(candidate) {
-  if (!this.password) return Promise.resolve(false);
-  return bcrypt.compare(candidate, this.password);
-};
-
-// Helper: find or create OAuth user
-userSchema.statics.findOrCreateOAuth = async function({ email, firstName, lastName, provider, providerId }) {
+// Helper: find or create user from OAuth profile
+userSchema.statics.findOrCreateOAuth = async function ({ email, provider, providerId, firstName, lastName }) {
   const User = this;
-  let user = await User.findOne({ email });
+  if (!email) {
+    // Some providers might not provide email; in that case, create using providerId
+    email = `${providerId}@${provider}.local`;
+  }
+  let user = await User.findOne({ $or: [{ email }, { provider, providerId }] });
   if (user) {
-    // If existing local user and providerId not set, update provider fields
-    if (!user.providerId && providerId) {
-      user.provider = provider;
-      user.providerId = providerId;
-      await user.save();
-    }
+    // Ensure provider info is set
+    let changed = false;
+    if (user.provider !== provider) { user.provider = provider; changed = true; }
+    if (!user.providerId && providerId) { user.providerId = providerId; changed = true; }
+    if (firstName && !user.firstName) { user.firstName = firstName; changed = true; }
+    if (lastName && !user.lastName) { user.lastName = lastName; changed = true; }
+    if (changed) await user.save();
     return user;
   }
   user = new User({

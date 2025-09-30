@@ -7,15 +7,6 @@ const doc = {
   },
   host: "localhost:3000",
   schemes: ["http", "https"],
-  components: {
-    securitySchemes: {
-      bearerAuth: {
-        type: "http",
-        scheme: "bearer",
-        bearerFormat: "JWT",
-      },
-    },
-  },
   tags: [
     { name: "Auth", description: "Register" },
     { name: "Auth", description: "Login" },

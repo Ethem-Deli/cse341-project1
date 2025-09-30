@@ -4,7 +4,6 @@ const validate = require("../middleware/validate");
 const { productCreate, productUpdate } = require("../validation/productValidation");
 const { ensureAuthenticated } = require("../middleware/ensureAuth");
 
-// Public routes
 // Get all products
 router.get("/", productsController.getAllProducts);
 // Get product by ID

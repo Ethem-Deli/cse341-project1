@@ -2,12 +2,12 @@ const router = require("express").Router();
 const passport = require("passport");
 const authController = require("../controllers/auth");
 
- //POST Register
+// POST Register
 router.post("/register", authController.register);
-//POST Login
+// POST Login
 router.post("/login", authController.login);
 
-// Google OAuth entrypoint 
+// Google OAuth entrypoint
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -26,13 +26,29 @@ router.get(
   authController.oauthCallback // signs JWT & respond/redirect
 );
 
-//logout endpoint (just instruct client to delete token)
-router.get("/logout", (req, res) => {
-  req.logout?.(); // only if using sessions
-  res.json({ message: "Logged out" });
-});
+// GitHub OAuth entrypoint
+router.get(
+  "/github",
+  passport.authenticate("github", {
+    scope: ["user:email"],
+    session: false,
+  })
+);
 
-//failure endpoint
+// GitHub OAuth callback
+router.get(
+  "/github/callback",
+  passport.authenticate("github", {
+    session: false,
+    failureRedirect: "/auth/google/failure",
+  }),
+  authController.oauthCallback
+);
+
+// logout endpoint (just instruct client to delete token)
+router.get("/logout", authController.logout);
+
+// failure endpoint
 router.get("/google/failure", authController.googleFailure);
 
 module.exports = router;

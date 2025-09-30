@@ -3,8 +3,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const passport = require("passport");
-
+const session = require('express-session');
 const configurePassport = require("./config/passport");
+const GitHubStrategy = require("passport-github2").Strategy;
+
 configurePassport();
 
 const apiRouter = require("./routes/index");
@@ -12,6 +14,17 @@ const apiRouter = require("./routes/index");
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'dev_secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // set true only on https
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(passport.initialize());
 
 // Mount API router
